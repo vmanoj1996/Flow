@@ -263,17 +263,17 @@ void update_TX_buffer(float pixel_flow_x, float pixel_flow_y,
 	i2c_integral_frame f_integral;
 
 	f.frame_count = frame_count;
-	f.pixel_flow_x_sum = pixel_flow_x * 10.0f;
-	f.pixel_flow_y_sum = pixel_flow_y * 10.0f;
-	f.flow_comp_m_x = flow_comp_m_x * 1000;
+	f.pixel_flow_x_sum = pixel_flow_x * 10.0f; 	//pixels*10
+	f.pixel_flow_y_sum = pixel_flow_y * 10.0f; 	//pixels*10
+	f.flow_comp_m_x = flow_comp_m_x * 1000; 	// mm traversed inbetween two frames
 	f.flow_comp_m_y = flow_comp_m_y * 1000;
-	f.qual = qual;
-	f.ground_distance = ground_distance * 1000;
+	f.qual = qual;								//0- Low quality, 255 max quality
+	f.ground_distance = ground_distance * 1000;	//cm
 
-	f.gyro_x_rate = gyro_x_rate * getGyroScalingFactor();
+	f.gyro_x_rate = gyro_x_rate * getGyroScalingFactor(); // No idea of the units
 	f.gyro_y_rate = gyro_y_rate * getGyroScalingFactor();
 	f.gyro_z_rate = gyro_z_rate * getGyroScalingFactor();
-	f.gyro_range = getGyroRange();
+	f.gyro_range = getGyroRange(); //No clue of this either
 
 	uint32_t time_since_last_sonar_update;
 
@@ -296,22 +296,17 @@ void update_TX_buffer(float pixel_flow_x, float pixel_flow_y,
 	static uint32_t integration_timespan = 0;
 	static uint32_t lasttime = 0;
 
-	/* calculate focal_length in pixel */
+	/* calculate focal_length in pixel 
 	const float focal_length_px = ((global_data.param[PARAM_FOCAL_LENGTH_MM])
-			/ (4.0f * 6.0f) * 1000.0f); //original focal lenght: 12mm pixelsize: 6um, binning 4 enabled
-
+			/ (4.0f * 6.0f) * 1000.0f); 
+Note: I have changed the px4flow code as per my needs
+	*/
 	// reset if readout has been performed
 	if (stop_accumulation == 1) {
 
-		//debug output
-//		mavlink_msg_optical_flow_send(MAVLINK_COMM_2, get_boot_time_us(),
-//				global_data.param[PARAM_SENSOR_ID], accumulated_flow_x * 10.0f,
-//				accumulated_gyro_x * 10.0f, integration_timespan,
-//				accumulated_framecount, (uint8_t) (accumulated_quality / accumulated_framecount), ground_distance);
-
 		integration_timespan = 0;
-		accumulated_flow_x = 0;			 //mrad
-		accumulated_flow_y = 0;			 //mrad
+		accumulated_flow_x = 0;			 
+		accumulated_flow_y = 0;			 
 		accumulated_framecount = 0;
 		accumulated_quality = 0;
 		accumulated_gyro_x = 0;			 //mrad
@@ -325,8 +320,8 @@ void update_TX_buffer(float pixel_flow_x, float pixel_flow_y,
 	if (qual > 0) {
 		uint32_t deltatime = (get_boot_time_us() - lasttime);
 		integration_timespan += deltatime;
-		accumulated_flow_x += pixel_flow_y * 1000.0f / focal_length_px * 1.0f;//mrad axis swapped to align x flow around y axis
-		accumulated_flow_y += pixel_flow_x * 1000.0f / focal_length_px * -1.0f;	//mrad
+		accumulated_flow_x += pixel_flow_x ; // pixels added  since last i2c read. Sign convention changed!!!
+		accumulated_flow_y += pixel_flow_y ; // pixels added since last i2c read
 		accumulated_framecount++;
 		accumulated_quality += qual;
 		accumulated_gyro_x += gyro_x_rate * deltatime * 0.001f;	//mrad  gyro_x_rate * 1000.0f*deltatime/1000000.0f;
@@ -338,11 +333,13 @@ void update_TX_buffer(float pixel_flow_x, float pixel_flow_y,
 	lasttime = get_boot_time_us();
 
 	f_integral.frame_count_since_last_readout = accumulated_framecount;
-	f_integral.gyro_x_rate_integral = accumulated_gyro_x * 10.0f;	//mrad*10
-	f_integral.gyro_y_rate_integral = accumulated_gyro_y * 10.0f;	//mrad*10
-	f_integral.gyro_z_rate_integral = accumulated_gyro_z * 10.0f; //mrad*10
-	f_integral.pixel_flow_x_integral = accumulated_flow_x * 10.0f; //mrad*10
-	f_integral.pixel_flow_y_integral = accumulated_flow_y * 10.0f; //mrad*10
+	f_integral.gyro_x_rate_integral = accumulated_gyro_x 	* 10.0f;	//mrad*10
+	f_integral.gyro_y_rate_integral = accumulated_gyro_y 	* 10.0f;	//mrad*10
+	f_integral.gyro_z_rate_integral = accumulated_gyro_z 	* 10.0f; 	//mrad*10
+
+	f_integral.pixel_flow_x_integral = accumulated_flow_x 	* 10.0f;  //pixels*10
+	f_integral.pixel_flow_y_integral = accumulated_flow_y 	* 10.0f;  //pixels*10
+
 	f_integral.integration_timespan = integration_timespan;     //microseconds
 	f_integral.ground_distance = ground_distance * 1000;		    //mmeters
 	f_integral.sonar_timestamp = time_since_last_sonar_update;  //microseconds
