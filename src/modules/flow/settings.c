@@ -119,7 +119,7 @@ void global_data_reset_param_defaults(void){
 	strcpy(global_data.param_name[PARAM_GYRO_SENSITIVITY_DPS], "GYRO_SENS_DPS");
 	global_data.param_access[PARAM_GYRO_SENSITIVITY_DPS] = READ_WRITE;
 
-	global_data.param[PARAM_GYRO_COMPENSATION_THRESHOLD] = 0.01;
+	global_data.param[PARAM_GYRO_COMPENSATION_THRESHOLD] = 0; //this is lower end compensation. Value of zero disables the sensor compensation.  Anyways I have disabled it internally also!!!!! This number doesnot matter now
 	strcpy(global_data.param_name[PARAM_GYRO_COMPENSATION_THRESHOLD], "GYRO_COMP_THR");
 	global_data.param_access[PARAM_GYRO_COMPENSATION_THRESHOLD] = READ_WRITE;
 
@@ -159,7 +159,7 @@ void global_data_reset_param_defaults(void){
 	strcpy(global_data.param_name[PARAM_VIDEO_ONLY], "VIDEO_ONLY");
 	global_data.param_access[PARAM_VIDEO_ONLY] = READ_WRITE;
 
-	global_data.param[PARAM_VIDEO_RATE] = 50;
+	global_data.param[PARAM_VIDEO_RATE] = 50; // what rate is this?
 	strcpy(global_data.param_name[PARAM_VIDEO_RATE], "VIDEO_RATE");
 	global_data.param_access[PARAM_VIDEO_RATE] = READ_WRITE;
 
