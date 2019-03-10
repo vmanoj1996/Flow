@@ -670,7 +670,8 @@ uint8_t compute_flow(uint8_t *image1, uint8_t *image2, float x_rate, float y_rat
 			 * -y_rate gives x flow
 			 * x_rates gives y_flow
 			 */
-			if (global_data.param[PARAM_BOTTOM_FLOW_GYRO_COMPENSATION])
+			//if (global_data.param[PARAM_BOTTOM_FLOW_GYRO_COMPENSATION])
+			if(0)//disabled gyro compensation
 			{
 				if(fabsf(y_rate) > global_data.param[PARAM_GYRO_COMPENSATION_THRESHOLD])
 				{

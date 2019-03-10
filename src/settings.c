@@ -113,7 +113,7 @@ void global_data_reset_param_defaults(void){
 	global_data.param_access[PARAM_GYRO_SENSITIVITY_DPS] = READ_WRITE;
 
 	global_data.param[PARAM_GYRO_COMPENSATION_THRESHOLD] = 0.01;
-	strcpy(global_data.param_name[PARAM_GYRO_COMPENSATION_THRESHOLD], "GYRO_COMP_THR");
+	strcpy(global_data.param_name[PARAM_GYRO_COMPENSATION_THRESHOLD], "GYRO_COMP_THR"); // disabled internally. This number doesnot matter
 	global_data.param_access[PARAM_GYRO_COMPENSATION_THRESHOLD] = READ_WRITE;
 
 	global_data.param[PARAM_SONAR_FILTERED] = 0;
