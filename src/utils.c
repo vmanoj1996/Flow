@@ -153,7 +153,7 @@ void ltoa(char *buf, unsigned long i, int base)
 		}
 	strcpy(buf, s);
 }
-
+/*
 void itoa(char *buf, unsigned int i, int base)
 {
 	char *s;
@@ -179,3 +179,4 @@ void itoa(char *buf, unsigned int i, int base)
 		}
 	strcpy(buf, s);
 }
+*/
