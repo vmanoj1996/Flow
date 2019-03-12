@@ -38,5 +38,11 @@ By default the px4flow-v1_default is uploaded to upload a different version
   make <target> upload-usb
 ```
 Where <target> is one of the px4flow tatgets listed by ```make help```
+  
+  NOTE:
+  1. This fork will not output the same data. i2c frame output is modified to suit my needs
+  2. This fork won't compensate the angular velocity using its internal gyroscope
+  3. Stable branch of this fork runs at 400Hz(as of March 12,2019). But master code runs at 50Hz(the internal flow calculations). That limits the maximum velocity that the sensor can measure by 4 times.
+  
 
 
