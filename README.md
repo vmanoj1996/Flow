@@ -1,4 +1,5 @@
 ## PX4Flow Firmware
+USE THE STABLE BRANCH ONLY
 
 [![Build Status](https://travis-ci.org/PX4/Flow.svg?branch=master)](https://travis-ci.org/PX4/Flow)
 
