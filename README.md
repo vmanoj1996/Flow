@@ -1,5 +1,9 @@
 ## PX4Flow Firmware
-USE THE STABLE BRANCH ONLY
+1. USE THE STABLE BRANCH ONLY!!!
+2. This repo is not compatible with px4/flow. 
+3. The master branch of PX4/Flow (or this repo) seems to compute optical flow at lesser rate than the advertised 400Hz (its somewhere around 50Hz). This problem limits the maximum optical flow (and by extension, the maximum speed measurable) below usable levels. The default firmware shipped with px4flow sensor is based on a 2014 commit. The stable branch of this repo is based on that particular commit.
+4. Further the I2C frame is modified to suit my needs. Please change them before using it in your project
+
 
 [![Build Status](https://travis-ci.org/PX4/Flow.svg?branch=master)](https://travis-ci.org/PX4/Flow)
 
@@ -43,7 +47,7 @@ Where <target> is one of the px4flow tatgets listed by ```make help```
   NOTE:
   1. This fork will not output the same data. i2c frame output is modified to suit my needs
   2. This fork won't compensate the angular velocity using its internal gyroscope
-  3. Stable branch of this fork runs at 400Hz(as of March 12,2019). But master code runs at 50Hz(the internal flow calculations). That limits the maximum velocity that the sensor can measure by 4 times.
+  3. Stable branch of this fork runs at 400Hz(as of March 12,2019). But master code runs at 50Hz(the internal flow calculations). That limits the maximum velocity that the sensor can measure.
   
 
 
